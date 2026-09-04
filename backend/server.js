@@ -168,6 +168,26 @@ app.use(
 
 
 // ========================================
+// PAINEL ADMIN (servido pelo backend, não pelo site público)
+// ========================================
+
+// O painel fica em /admin nesta mesma API — não faz parte do deploy da
+// loja (frontend/), então não é linkado nem indexado a partir do site
+// público. Ainda assim, reforçamos "não indexar" via header HTTP (o
+// <meta robots> do próprio admin.html já cobre a parte de HTML).
+const ADMIN_DIR = path.join(__dirname, "admin");
+
+app.use("/admin", (req, res, next) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow");
+    next();
+});
+app.use("/admin", express.static(ADMIN_DIR));
+app.get(["/admin", "/admin/"], (req, res) => {
+    res.sendFile(path.join(ADMIN_DIR, "admin.html"));
+});
+
+
+// ========================================
 // JSON
 // ========================================
 
@@ -253,6 +273,19 @@ app.use(
 app.use(
     errorHandler
 );
+
+
+// ========================================
+// SUBIR O SERVIDOR (dev/local, Render, Railway, etc.)
+// ========================================
+
+// Na Vercel, o runtime importa `app` como handler serverless e nunca
+// chama esta função — o listen() ali é inofensivo (não é invocado pelo
+// fluxo de requests deles). Localmente (e em qualquer host que não seja
+// serverless), sem isso o processo simplesmente não abre porta nenhuma.
+app.listen(PORT, () => {
+    console.log(`Rota 16:15 API rodando em http://localhost:${PORT} [${NODE_ENV}]`);
+});
 
 
 // ========================================

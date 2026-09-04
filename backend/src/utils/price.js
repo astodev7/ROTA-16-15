@@ -24,4 +24,4 @@ function formatCentsToBRL(cents) {
   return 'R$ ' + value.replace(/(\d)(?=(\d{3})+,)/g, '$1.');
 }
 
-module.exports = { parseBRLToCents, formatCentsToBRL };
+export { parseBRLToCents, formatCentsToBRL };
