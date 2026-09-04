@@ -20,6 +20,8 @@
     <p class="login-sub">Acesso restrito à administração da loja.</p>
     <label for="loginPassword">Senha</label>
     <input type="password" id="loginPassword" autocomplete="current-password" required>
+    <label for="loginCode" id="loginCodeLabel" hidden>Código do app autenticador</label>
+    <input type="text" id="loginCode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" hidden>
     <button type="submit" class="btn btn-solid" id="loginSubmit">Entrar</button>
     <p class="login-feedback" id="loginFeedback" role="status" aria-live="polite"></p>
   </form>

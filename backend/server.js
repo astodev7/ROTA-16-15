@@ -48,11 +48,11 @@ const NODE_ENV =
 // ========================================
 
 if (
-    !process.env.ADMIN_PASSWORD &&
     !process.env.ADMIN_PASSWORD_HASH
 ) {
     console.error(
-        "[FATAL] Defina ADMIN_PASSWORD ou ADMIN_PASSWORD_HASH no .env antes de iniciar o servidor."
+        "[FATAL] Defina ADMIN_PASSWORD_HASH no .env antes de iniciar o servidor. " +
+        "Gere com: node -e \"console.log(require('bcryptjs').hashSync('SUA_SENHA', 12))\""
     );
 
     process.exit(1);

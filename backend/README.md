@@ -109,18 +109,30 @@ O servidor **nunca confia** no nome/preço enviado pelo carrinho — só usa `pr
 | PUT    | `/api/admin/orders/:id/status` | Atualiza status (`pendente`, `confirmado`, `enviado`, `concluido`, `cancelado`) |
 | DELETE | `/api/admin/orders/:id`        | Remove um pedido                            |
 
-Todas as rotas de admin (exceto `/login`) exigem o header `Authorization: Bearer <token>`. O token é gerado em memória e expira em 4 horas ou quando o servidor reinicia — pra algo mais robusto (múltiplas instâncias, expiração persistente), troque por JWT ou sessões de verdade.
+Todas as rotas de admin (exceto `/login`) exigem o header `Authorization: Bearer <token>`. O token é um JWT assinado (`JWT_SECRET`) e expira em 4 horas.
 
-O painel visual (`frontend/admin.html`) já consome essa API: aba de **Pedidos** (mudar status, remover), aba de **Lista VIP** (exportar CSV, remover) e aba de **Produtos** (criar/editar/remover).
+O painel visual (`backend/admin/`, servido em `/admin` pelo próprio backend) já consome essa API: aba de **Pedidos** (mudar status, remover), aba de **Lista VIP** (exportar CSV, remover) e aba de **Produtos** (criar/editar/remover).
 
 ## Segurança já aplicada
 
-- Senha do admin com hash bcrypt (`ADMIN_PASSWORD_HASH`) — comparação sem vazar tempo de resposta.
+- Senha do admin com hash bcrypt (`ADMIN_PASSWORD_HASH`) — único método suportado, sem fallback em texto puro.
+- **2FA (TOTP) opcional** para o login do admin — veja "Ativar 2FA" abaixo.
 - `helmet` com CSP restritiva e cabeçalhos de segurança padrão.
 - Rate limiting por rota (`rateLimiters.js`): geral, login (força bruta), lista VIP e pedidos.
 - CORS obrigatório e explícito em produção (`NODE_ENV=production` recusa iniciar com `CORS_ORIGIN=*`).
 - Validação de entrada em todas as rotas públicas (nome, e-mail, telefone, endereço, categoria, preço).
 - Preço de pedido sempre recalculado no servidor a partir do catálogo — nunca confia no valor enviado pelo navegador.
+- Dependabot + `npm audit` semanal via GitHub Actions (`.github/`).
+
+## Ativar 2FA no login do admin
+
+1. `cd backend && npm install` (instala `otplib`).
+2. `node scripts/gerar-qr-2fa.js` — mostra um QR code no terminal e imprime a linha `ADMIN_TOTP_SECRET=...`.
+3. Cole essa linha no `.env`.
+4. Escaneie o QR com Google Authenticator, Authy ou 1Password.
+5. Reinicie o backend. A partir daí, `/api/admin/login` passa a responder `{ requires2FA: true }` quando a senha está certa mas falta o código — o painel já pede o código de 6 dígitos automaticamente.
+
+Para desativar, remova `ADMIN_TOTP_SECRET` do `.env` e reinicie.
 
 ## Notas
 

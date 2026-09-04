@@ -1,6 +1,6 @@
-import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { authenticator } from "otplib";
 
 
 // ========================================
@@ -160,62 +160,72 @@ async function verifyAdminPassword(inputPassword) {
     // ========================================
     // BCRYPT
     // ========================================
+    // Único método suportado. A senha em texto puro (ADMIN_PASSWORD)
+    // foi removida: nunca compare senhas sem hash, mesmo com
+    // timingSafeEqual — o hash é o que impede vazamento em texto
+    // plano caso o .env ou uma variável de ambiente vaze.
 
-    if (hash) {
-
-        try {
-
-            return await bcrypt.compare(
-                inputPassword,
-                hash
-            );
-
-        } catch (error) {
-
-            console.error(
-                "[AUTH] Erro ao verificar senha:",
-                error
-            );
-
-            return false;
-
-        }
-
-    }
-
-
-    // ========================================
-    // SENHA EM TEXTO PURO
-    // LEGADO
-    // ========================================
-
-    const plain =
-        process.env.ADMIN_PASSWORD;
-
-
-    if (!plain) {
+    if (!hash) {
         return false;
     }
 
+    try {
 
-    const a =
-        Buffer.from(inputPassword);
+        return await bcrypt.compare(
+            inputPassword,
+            hash
+        );
 
-    const b =
-        Buffer.from(plain);
+    } catch (error) {
 
-
-    if (a.length !== b.length) {
+        console.error(
+            "[AUTH] Erro ao verificar senha:",
+            error
+        );
 
         return false;
 
     }
 
+}
 
-    return crypto.timingSafeEqual(
-        a,
-        b
-    );
+
+// ========================================
+// 2FA (TOTP) — RFC 6238
+// ========================================
+//
+// Opcional: só entra em vigor se ADMIN_TOTP_SECRET estiver
+// definido no .env. Sem essa variável, o login continua
+// exigindo só a senha (comportamento anterior).
+//
+// Gerar um segredo novo (rodar uma vez, localmente):
+//   node -e "console.log(require('otplib').authenticator.generateSecret())"
+//
+// Depois de colar o valor em ADMIN_TOTP_SECRET, cadastre o mesmo
+// segredo no app autenticador (Google Authenticator, Authy, etc.)
+// escaneando um QR gerado a partir da otpauth URL — veja
+// scripts/gerar-qr-2fa.js.
+
+authenticator.options = { window: 1 }; // tolera 1 passo (±30s) de dessincronia de relógio
+
+function isTwoFactorEnabled() {
+    return Boolean(process.env.ADMIN_TOTP_SECRET);
+}
+
+function verifyTotpCode(code) {
+
+    const secret = process.env.ADMIN_TOTP_SECRET;
+
+    if (!secret || typeof code !== "string" || !/^\d{6}$/.test(code)) {
+        return false;
+    }
+
+    try {
+        return authenticator.check(code, secret);
+    } catch (error) {
+        console.error("[AUTH] Erro ao verificar código 2FA:", error);
+        return false;
+    }
 
 }
 
@@ -230,5 +240,7 @@ export {
     isValidToken,
     adminAuth,
     verifyAdminPassword,
-    getTokenFromHeader
+    getTokenFromHeader,
+    isTwoFactorEnabled,
+    verifyTotpCode
 };

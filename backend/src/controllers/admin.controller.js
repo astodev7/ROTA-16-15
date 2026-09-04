@@ -6,7 +6,9 @@ import {
     issueToken,
     revokeToken,
     verifyAdminPassword,
-    getTokenFromHeader
+    getTokenFromHeader,
+    isTwoFactorEnabled,
+    verifyTotpCode
 } from "../middleware/auth.js";
 
 const CATEGORIAS_VALIDAS = [
@@ -19,13 +21,13 @@ const CATEGORIAS_VALIDAS = [
 const PRECO_REGEX = /^\d+(\.\d{1,2})?$/;
 
 async function login(req, res) {
-    if (!process.env.ADMIN_PASSWORD && !process.env.ADMIN_PASSWORD_HASH) {
+    if (!process.env.ADMIN_PASSWORD_HASH) {
         return res.status(500).json({
             message: "Nenhuma senha de admin configurada no .env do backend."
         });
     }
 
-    const { password } = req.body || {};
+    const { password, code } = req.body || {};
 
     const ok = await verifyAdminPassword(password);
 
@@ -33,6 +35,25 @@ async function login(req, res) {
         return res.status(401).json({
             message: "Senha incorreta."
         });
+    }
+
+    // ========================================
+    // 2FA (TOTP) — se ADMIN_TOTP_SECRET estiver configurado,
+    // a senha sozinha não basta. O frontend reenvia a mesma
+    // senha + o código do app autenticador.
+    // ========================================
+    if (isTwoFactorEnabled()) {
+        if (!code) {
+            return res.status(200).json({
+                requires2FA: true
+            });
+        }
+
+        if (!verifyTotpCode(code)) {
+            return res.status(401).json({
+                message: "Código de verificação inválido."
+            });
+        }
     }
 
     const token = issueToken();

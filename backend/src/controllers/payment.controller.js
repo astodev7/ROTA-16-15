@@ -41,9 +41,9 @@ async function createCheckout(req, res, next) {
       external_reference: order.publicToken,
       ...(getNotificationUrl().startsWith("http") ? { notification_url: getNotificationUrl() } : {}),
       ...(url ? { back_urls: {
-        success: `${url}/?payment=success&ref=${encodeURIComponent(order.publicToken)}`,
-        pending: `${url}/?payment=pending&ref=${encodeURIComponent(order.publicToken)}`,
-        failure: `${url}/?payment=failure&ref=${encodeURIComponent(order.publicToken)}`
+        success: `${url}/obrigado.html?payment=success&ref=${encodeURIComponent(order.publicToken)}`,
+        pending: `${url}/obrigado.html?payment=pending&ref=${encodeURIComponent(order.publicToken)}`,
+        failure: `${url}/obrigado.html?payment=failure&ref=${encodeURIComponent(order.publicToken)}`
       } } : {}),
       ...(url ? { auto_return: "approved" } : {}),
       statement_descriptor: "ROTA1615"

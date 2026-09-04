@@ -3,12 +3,30 @@
   // O painel agora é servido pelo próprio backend (mesma origem da API),
   // então não precisa mais apontar pra uma URL cross-origin.
   var API_BASE = '/api', TOKEN_KEY='rota1615_admin_token';
-  var loginScreen=document.getElementById('loginScreen'),adminApp=document.getElementById('adminApp'),loginForm=document.getElementById('loginForm'),loginFeedback=document.getElementById('loginFeedback'),loginSubmit=document.getElementById('loginSubmit');
+  var loginScreen=document.getElementById('loginScreen'),adminApp=document.getElementById('adminApp'),loginForm=document.getElementById('loginForm'),loginFeedback=document.getElementById('loginFeedback'),loginSubmit=document.getElementById('loginSubmit'),loginCode=document.getElementById('loginCode'),loginCodeLabel=document.getElementById('loginCodeLabel');
   function getToken(){return sessionStorage.getItem(TOKEN_KEY);} function setToken(t){sessionStorage.setItem(TOKEN_KEY,t);} function clearToken(){sessionStorage.removeItem(TOKEN_KEY);}
   function authFetch(path,options){options=options||{};options.headers=Object.assign({},options.headers,{Authorization:'Bearer '+getToken()});return fetch(API_BASE+path,options).then(function(res){if(res.status===401){clearToken();showLogin('Sessão expirada. Faça login novamente.');throw new Error('unauthorized');}return res;});}
   function showLogin(m){adminApp.hidden=true;loginScreen.hidden=false;if(m)loginFeedback.textContent=m;} function showApp(){loginScreen.hidden=true;adminApp.hidden=false;loadOrders();loadVipList();loadProducts();}
   function escapeHtml(v){var d=document.createElement('div');d.textContent=String(v??'');return d.innerHTML;} function formatBRL(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v)||0);}
-  loginForm.addEventListener('submit',function(e){e.preventDefault();loginSubmit.disabled=true;loginFeedback.textContent='';fetch(API_BASE+'/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:document.getElementById('loginPassword').value})}).then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d};});}).then(function(r){loginSubmit.disabled=false;if(r.ok){setToken(r.data.token);loginForm.reset();showApp();}else loginFeedback.textContent=r.data.message||'Não foi possível entrar.';}).catch(function(){loginSubmit.disabled=false;loginFeedback.textContent='Não foi possível conectar ao servidor.';});});
+  var awaiting2FA=false;
+  loginForm.addEventListener('submit',function(e){
+    e.preventDefault();loginSubmit.disabled=true;loginFeedback.textContent='';
+    var payload={password:document.getElementById('loginPassword').value};
+    if(awaiting2FA)payload.code=loginCode.value.trim();
+    fetch(API_BASE+'/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d};});})
+      .then(function(r){
+        loginSubmit.disabled=false;
+        if(r.ok&&r.data.requires2FA){
+          awaiting2FA=true;loginCode.hidden=false;loginCodeLabel.hidden=false;loginCode.required=true;loginCode.focus();
+          loginFeedback.textContent='Digite o código de 6 dígitos do app autenticador.';loginFeedback.className='login-feedback';
+          return;
+        }
+        if(r.ok&&r.data.token){setToken(r.data.token);loginForm.reset();awaiting2FA=false;loginCode.hidden=true;loginCodeLabel.hidden=true;showApp();return;}
+        loginFeedback.textContent=r.data.message||'Não foi possível entrar.';
+      })
+      .catch(function(){loginSubmit.disabled=false;loginFeedback.textContent='Não foi possível conectar ao servidor.';});
+  });
   document.getElementById('logoutBtn').addEventListener('click',function(){authFetch('/admin/logout',{method:'POST'}).catch(function(){}).then(function(){clearToken();showLogin('');});});
   document.querySelectorAll('.tab-btn').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('.tab-btn').forEach(function(b){b.setAttribute('aria-pressed','false');});btn.setAttribute('aria-pressed','true');document.querySelectorAll('.tab-panel').forEach(function(p){p.hidden=true;});document.getElementById('tab-'+btn.dataset.tab).hidden=false;});});
 
