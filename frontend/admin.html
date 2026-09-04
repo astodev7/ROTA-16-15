@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel — Rota 16:15</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- TELA DE LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <form class="login-card" id="loginForm" novalidate>
+    <img src="assets/logo.png" alt="Logotipo Rota 16:15" class="login-logo">
+    <h1>Painel Rota 16:15</h1>
+    <p class="login-sub">Acesso restrito à administração da loja.</p>
+    <label for="loginPassword">Senha</label>
+    <input type="password" id="loginPassword" autocomplete="current-password" required>
+    <button type="submit" class="btn btn-solid" id="loginSubmit">Entrar</button>
+    <p class="login-feedback" id="loginFeedback" role="status" aria-live="polite"></p>
+  </form>
+</div>
+
+<!-- PAINEL -->
+<div class="admin-app" id="adminApp" hidden>
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <a href="index.html" class="brand">
+        <img src="assets/logo.png" alt="Logotipo Rota 16:15">
+        <span>ROTA 16:15 <em>/ admin</em></span>
+      </a>
+      <nav class="admin-tabs" aria-label="Seções do painel">
+        <button class="tab-btn" data-tab="orders" aria-pressed="true">Pedidos</button>
+        <button class="tab-btn" data-tab="vip" aria-pressed="false">Lista VIP</button>
+        <button class="tab-btn" data-tab="products" aria-pressed="false">Produtos</button>
+      </nav>
+      <button class="btn btn-outline" id="logoutBtn">Sair</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+
+    <!-- TAB: PEDIDOS -->
+    <section class="tab-panel" id="tab-orders">
+      <div class="panel-head">
+        <div>
+          <h2>Pedidos</h2>
+          <p class="mono-tag" id="ordersCount">0 pedidos</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Itens</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Pagamento</th>
+              <th>Data</th>
+              <th aria-label="Ações"></th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <!-- linhas via js -->
+          </tbody>
+        </table>
+        <p class="empty-state" id="ordersEmpty" hidden>Nenhum pedido ainda.</p>
+      </div>
+    </section>
+
+    <!-- TAB: LISTA VIP -->
+    <section class="tab-panel" id="tab-vip" hidden>
+      <div class="panel-head">
+        <div>
+          <h2>Lista VIP — Drop 01</h2>
+          <p class="mono-tag" id="vipCount">0 inscritos</p>
+        </div>
+        <button class="btn btn-outline" id="exportCsv">Exportar CSV</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Inscrito em</th>
+              <th aria-label="Ações"></th>
+            </tr>
+          </thead>
+          <tbody id="vipTableBody">
+            <!-- linhas via js -->
+          </tbody>
+        </table>
+        <p class="empty-state" id="vipEmpty" hidden>Nenhum inscrito ainda.</p>
+      </div>
+    </section>
+
+    <!-- TAB: PRODUTOS -->
+    <section class="tab-panel" id="tab-products" hidden>
+      <div class="panel-head">
+        <div>
+          <h2>Produtos</h2>
+          <p class="mono-tag">Catálogo exibido em /colecao</p>
+        </div>
+      </div>
+
+      <form class="product-form" id="productForm">
+        <div class="field">
+          <label for="pName">Nome</label>
+          <input type="text" id="pName" required>
+        </div>
+        <div class="field">
+          <label for="pCategory">Categoria</label>
+          <select id="pCategory" required>
+            <option value="camisetas">Camisetas</option>
+            <option value="moletons">Moletons</option>
+            <option value="bermudas">Bermudas</option>
+            <option value="acessorios">Acessórios</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="pPrice">Preço</label>
+          <input type="number" id="pPrice" placeholder="129.00" min="0" step="0.01" required>
+        </div>
+        <div class="field">
+          <label for="pStock">Estoque</label>
+          <input type="number" id="pStock" placeholder="10" min="0" step="1" required>
+        </div>
+        <div class="field field-wide">
+          <label for="pImage">Imagem (URL)</label>
+          <input type="url" id="pImage" placeholder="https://...">
+        </div>
+        <div class="field field-wide">
+          <label for="pDescription">Descrição</label>
+          <input type="text" id="pDescription" placeholder="Descrição curta">
+        </div>
+        <button type="submit" class="btn btn-solid" id="productSubmit">Adicionar produto</button>
+        <button type="button" class="btn btn-outline" id="productCancel" hidden>Cancelar edição</button>
+      </form>
+      <p class="form-feedback" id="productFeedback" role="status" aria-live="polite"></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Categoria</th>
+              <th>Preço</th>
+              <th>Estoque</th>
+              <th aria-label="Ações"></th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody">
+            <!-- linhas via js -->
+          </tbody>
+        </table>
+        <p class="empty-state" id="productsEmpty" hidden>Nenhum produto cadastrado.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

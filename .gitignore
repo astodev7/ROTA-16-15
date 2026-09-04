@@ -1,0 +1,20 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente / segredos — NUNCA versionar
+.env
+.env.*
+!.env.example
+
+# Lista VIP: contém nome e e-mail de clientes reais (dado pessoal — LGPD).
+# products.json não é sensível e pode ficar versionado normalmente.
+backend/src/data/vip-list.json
+
+# Logs
+npm-debug.log*
+*.log
+
+# Sistema operacional / editor
+.DS_Store
+Thumbs.db
+.vscode/

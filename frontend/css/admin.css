@@ -1,0 +1,138 @@
+:root{
+  --ink:#1A1611;
+  --paper:#F4EFE6;
+  --card:#FBF8F2;
+  --stone:#E7DFD0;
+  --muted:#5B5142;
+  --line:#C9BEA9;
+  --line-strong:#A99C86;
+  --err:#8C3B2E;
+  --ok:#3B5C2E;
+  --font-display:'Archivo', sans-serif;
+  --font-body:'Work Sans', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--font-body);
+  font-size:15.5px;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+button{font:inherit;cursor:pointer;}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+
+.mono-tag{font-family:var(--font-mono);font-size:12px;letter-spacing:0.05em;color:var(--muted);}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:0.02em;
+  padding:11px 20px;border:1px solid var(--ink);background:none;text-decoration:none;
+  transition:background .18s ease, color .18s ease, opacity .18s ease;
+}
+.btn-solid{background:var(--ink);color:var(--paper);}
+.btn-solid:hover{background:transparent;color:var(--ink);}
+.btn-solid:disabled{opacity:.5;cursor:not-allowed;}
+.btn-outline{background:transparent;color:var(--ink);}
+.btn-outline:hover{background:var(--ink);color:var(--paper);}
+
+/* ============== LOGIN ============== */
+.login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+}
+.login-screen[hidden]{
+  display:none;
+}
+.login-card{
+  width:100%;max-width:340px;border:1px solid var(--line);background:var(--card);
+  padding:40px 32px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+}
+.login-logo{width:56px;height:56px;border-radius:50%;margin-bottom:18px;align-self:center;}
+.login-card h1{font-family:var(--font-display);font-weight:800;font-size:19px;align-self:center;}
+.login-sub{font-size:13.5px;color:var(--muted);margin-bottom:20px;align-self:center;text-align:center;}
+.login-card label{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);letter-spacing:0.04em;margin-bottom:6px;}
+.login-card input{
+  width:100%;border:1px solid var(--line-strong);background:var(--paper);padding:12px 14px;
+  font-family:var(--font-body);font-size:15px;margin-bottom:18px;
+}
+.login-card .btn{width:100%;margin-top:2px;}
+.login-feedback{font-size:13px;color:var(--err);margin-top:14px;min-height:18px;}
+
+/* ============== SHELL ============== */
+.admin-header{border-bottom:1px solid var(--line);background:var(--card);}
+.admin-header-inner{
+  max-width:1120px;margin:0 auto;padding:16px 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
+.brand img{width:34px;height:34px;border-radius:50%;}
+.brand span{font-family:var(--font-display);font-weight:800;font-size:14.5px;}
+.brand em{font-style:normal;color:var(--muted);font-weight:500;}
+
+.admin-tabs{display:flex;gap:8px;}
+.tab-btn{
+  border:1px solid var(--line-strong);background:none;padding:9px 16px;
+  font-family:var(--font-display);font-weight:600;font-size:13px;
+  transition:background .18s ease, color .18s ease;
+}
+.tab-btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+.admin-main{max-width:1120px;margin:0 auto;padding:40px 28px 80px;}
+
+.panel-head{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:28px;
+}
+.panel-head h2{font-family:var(--font-display);font-weight:800;font-size:24px;margin-bottom:6px;}
+
+/* ============== TABLE ============== */
+.table-wrap{border:1px solid var(--line);background:var(--card);}
+table{width:100%;border-collapse:collapse;}
+thead th{
+  text-align:left;font-family:var(--font-mono);font-size:11.5px;color:var(--muted);
+  letter-spacing:0.04em;padding:14px 18px;border-bottom:1px solid var(--line);
+}
+tbody td{padding:14px 18px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+.row-actions{display:flex;gap:8px;justify-content:flex-end;}
+.icon-btn{
+  border:1px solid var(--line-strong);background:none;padding:6px 12px;font-size:12px;
+  font-family:var(--font-mono);transition:background .18s ease, color .18s ease;
+}
+.icon-btn:hover{background:var(--ink);color:var(--paper);}
+.icon-btn.danger:hover{background:var(--err);border-color:var(--err);color:var(--paper);}
+
+.empty-state{padding:32px 18px;color:var(--muted);font-size:14px;text-align:center;}
+
+.row-sub{display:block;font-size:12px;color:var(--muted);margin-top:2px;}
+.status-select{
+  border:1px solid var(--line-strong);background:var(--paper);padding:7px 10px;
+  font-family:var(--font-mono);font-size:12.5px;
+}
+
+/* ============== FORM (produtos) ============== */
+.product-form{
+  display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;
+  border:1px solid var(--line);background:var(--card);padding:22px;margin-bottom:14px;
+}
+.product-form .field{display:flex;flex-direction:column;gap:6px;min-width:160px;flex:1;}
+.product-form label{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:0.04em;}
+.product-form input, .product-form select{
+  border:1px solid var(--line-strong);background:var(--paper);padding:11px 12px;font-family:var(--font-body);font-size:14.5px;
+}
+.form-feedback{font-size:13px;min-height:18px;margin-bottom:20px;}
+.form-feedback.ok{color:var(--ok);}
+.form-feedback.err{color:var(--err);}
+
+@media (max-width:720px){
+  .admin-header-inner{flex-direction:column;align-items:flex-start;}
+  table, thead, tbody, tr, th, td{display:block;}
+  thead{display:none;}
+  tbody tr{border-bottom:1px solid var(--line);padding:14px 18px;}
+  tbody td{border-bottom:none;padding:4px 0;}
+  tbody td::before{content:attr(data-label);display:block;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);margin-bottom:2px;}
+  .row-actions{justify-content:flex-start;margin-top:8px;}
+  .product-form{flex-direction:column;align-items:stretch;}
+}
+
+.field-wide{min-width:260px;flex:2!important;}
+@media (max-width:720px){.admin-main{padding:28px 16px 60px}.admin-header-inner{padding:14px 16px}.admin-tabs{width:100%;overflow-x:auto}.tab-btn{flex:0 0 auto}.product-form{padding:16px}.field-wide{min-width:0!important;width:100%;}}

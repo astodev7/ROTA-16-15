@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rota 16:15 — Moda urbana com propósito</title>
+<meta name="description" content="Rota 16:15 — moda urbana com propósito. Drop 01: Ide por Todo o Mundo, em breve. Entre na lista VIP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="#top" class="brand" aria-label="Rota 16:15 — página inicial">
+      <img src="assets/logo.png" alt="Logotipo Rota 16:15: selo circular com mapa-múndi, a palavra ROTA, o horário 16:15 e a frase O IDE É O NOSSO CAMINHO">
+      <span class="brand-word">ROTA 16:15</span>
+    </a>
+    <nav class="nav-links" aria-label="Navegação principal">
+      <a href="#drop">Drop 01</a>
+      <a href="#colecao">Coleção</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#palavra">Palavra</a>
+      <a href="#manifesto">Manifesto</a>
+      <a href="#instagram">Instagram</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#contato" class="btn btn-outline">Contato</a>
+      <a href="#drop" class="btn btn-solid">Lista VIP</a>
+      <button class="cart-toggle" id="cartToggle" aria-label="Abrir carrinho" aria-expanded="false" aria-controls="cartPanel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L20 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
+        <span class="cart-count" id="cartCount" hidden>0</span>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobilePanel">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-panel" id="mobilePanel">
+  <div class="mobile-panel-top">
+    <a href="#top" class="brand">
+      <img src="assets/logo.png" alt="Logotipo Rota 16:15" style="width:36px;height:36px;">
+      <span class="brand-word">ROTA 16:15</span>
+    </a>
+    <button class="menu-toggle" id="menuClose" aria-label="Fechar menu">
+      <span style="transform:rotate(45deg) translate(1px,1px);"></span>
+      <span style="opacity:0;"></span>
+      <span style="transform:rotate(-45deg) translate(1px,-1px);"></span>
+    </button>
+  </div>
+  <nav aria-label="Navegação mobile">
+    <a href="#drop">Drop 01</a>
+    <a href="#colecao">Coleção</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#palavra">Palavra</a>
+    <a href="#manifesto">Manifesto</a>
+    <a href="#instagram">Instagram</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <a href="#drop" class="btn btn-solid">Entrar na lista VIP</a>
+</div>
+
+<!-- CARRINHO -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-panel" id="cartPanel" aria-label="Carrinho de compras">
+  <div class="cart-view" id="cartView">
+    <div class="cart-head">
+      <h2>Seu carrinho</h2>
+      <button class="cart-close" id="cartClose" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 5L19 19M19 5L5 19"/></svg>
+      </button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- itens via js -->
+    </div>
+    <p class="cart-empty" id="cartEmpty">Seu carrinho está vazio.</p>
+    <div class="cart-footer" id="cartFooter" hidden>
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cartTotal">R$ 0,00</strong>
+      </div>
+      <button class="btn btn-solid cart-checkout-btn" id="goToCheckout">Concluir compra</button>
+    </div>
+  </div>
+
+  <div class="cart-view" id="checkoutView" hidden>
+    <div class="cart-head">
+      <button class="cart-back" id="checkoutBack" aria-label="Voltar ao carrinho">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 5L8 12l7 7"/></svg>
+      </button>
+      <h2>Concluir compra</h2>
+      <button class="cart-close" id="cartClose2" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 5L19 19M19 5L5 19"/></svg>
+      </button>
+    </div>
+    <form id="checkoutForm" class="checkout-form" novalidate>
+      <p class="checkout-note">Pagamento seguro via Mercado Pago. Você será redirecionado para concluir o pagamento. O pedido só é confirmado após a confirmação do pagamento.</p>
+      <div class="field">
+        <label for="coName">Nome completo</label>
+        <input type="text" id="coName" required minlength="2">
+      </div>
+      <div class="field">
+        <label for="coEmail">E-mail</label>
+        <input type="email" id="coEmail" required>
+      </div>
+      <div class="field">
+        <label for="coPhone">Telefone / WhatsApp</label>
+        <input type="tel" id="coPhone" placeholder="(00) 00000-0000" required>
+      </div>
+      <div class="field">
+        <label for="coAddress">Endereço de entrega</label>
+        <textarea id="coAddress" rows="3" required placeholder="Rua, número, bairro, cidade — UF, CEP"></textarea>
+      </div>
+      <div class="checkout-summary" id="checkoutSummary"></div>
+      <button type="submit" class="btn btn-solid" id="checkoutSubmit">Finalizar pedido</button>
+      <p class="checkout-feedback" id="checkoutFeedback" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <div class="cart-view" id="successView" hidden>
+    <div class="cart-head">
+      <h2>Pedido enviado</h2>
+      <button class="cart-close" id="cartClose3" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 5L19 19M19 5L5 19"/></svg>
+      </button>
+    </div>
+    <div class="success-body">
+      <p class="success-msg" id="successMessage"></p>
+      <button class="btn btn-outline" id="successClose">Fechar</button>
+    </div>
+  </div>
+</aside>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="hero-eyebrow">Moda urbana com propósito</span>
+        <h1 class="hero-title">Roupa pra quem cria o próprio trajeto.</h1>
+        <p class="hero-sub">A Rota 16:15 nasce de um horário, um mapa e uma missão. Peças com identidade de rua, feitas pra quem carrega propósito por onde passa.</p>
+        <div class="hero-ctas">
+          <a href="#drop" class="btn btn-solid">Entrar na lista VIP</a>
+          <a href="#sobre" class="btn btn-outline">Conhecer a Rota</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <span class="coord">S 08° 03' — W 34° 52'</span>
+        <span class="coord2">ROTA 16:15</span>
+        <svg viewBox="0 0 200 200" fill="none" stroke="#1A1611" stroke-width="1.1">
+          <circle cx="100" cy="100" r="92" stroke-dasharray="2 4"/>
+          <path d="M20 100 Q60 40 100 100 T180 100" />
+          <path d="M40 60 L70 130 L100 50 L130 140 L160 70" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="100" cy="100" r="4" fill="#1A1611" stroke="none"/>
+          <circle cx="40" cy="60" r="2.4" fill="#1A1611" stroke="none"/>
+          <circle cx="160" cy="70" r="2.4" fill="#1A1611" stroke="none"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- DROP 01 -->
+  <section class="drop" id="drop">
+    <div class="wrap drop-grid">
+      <div class="drop-art">
+        <span class="drop-status">EM BREVE</span>
+        <svg viewBox="0 0 220 220" fill="none" stroke="#F4EFE6" stroke-width="1">
+          <circle cx="110" cy="110" r="96" stroke-dasharray="2 5"/>
+          <path d="M30 105 Q70 60 110 105 T190 105" stroke-width="0.9"/>
+          <path d="M40 150 L100 60 L140 150" stroke-width="0.7" opacity="0.6"/>
+          <circle cx="110" cy="105" r="4" fill="#F4EFE6" stroke="none"/>
+        </svg>
+      </div>
+      <div class="drop-content">
+        <span class="mono-tag drop-tag">DROP 01 — EDIÇÃO LIMITADA</span>
+        <h2>Ide por Todo o Mundo</h2>
+        <p>A primeira coleção de camisetas da Rota 16:15 está a caminho. Peça exclusiva, tiragem limitada, inspirada em Marcos 16:15. Quem entrar na lista VIP garante prioridade antes da coleção abrir ao público.</p>
+        <form id="vipForm" class="vip-form" novalidate>
+          <div class="vip-fields">
+            <div class="field">
+              <label for="vipName">Nome</label>
+              <input type="text" id="vipName" name="name" autocomplete="name" required minlength="2">
+            </div>
+            <div class="field">
+              <label for="vipEmail">E-mail</label>
+              <input type="email" id="vipEmail" name="email" autocomplete="email" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-solid" id="vipSubmit">Quero entrar na lista VIP</button>
+          <p class="vip-note">Sem spam. A gente só avisa quando o Drop 01 abrir.</p>
+          <p class="vip-feedback" id="vipFeedback" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLEÇÃO -->
+  <section id="colecao">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="mono-tag">COLEÇÃO</span>
+        <h2>Peças para o percurso do dia a dia</h2>
+        <p>Cortes retos, tecidos pesados e identidade de rua — a linha atual da marca, enquanto o Drop 01 não chega.</p>
+      </div>
+
+      <div class="filters" role="tablist" aria-label="Filtrar por categoria">
+        <button class="filter-btn" data-filter="todos" aria-pressed="true">Todos</button>
+        <button class="filter-btn" data-filter="camisetas" aria-pressed="false">Camisetas</button>
+        <button class="filter-btn" data-filter="moletons" aria-pressed="false">Moletons</button>
+        <button class="filter-btn" data-filter="bermudas" aria-pressed="false">Bermudas</button>
+        <button class="filter-btn" data-filter="acessorios" aria-pressed="false">Acessórios</button>
+      </div>
+
+      <div class="product-grid" id="productGrid" aria-live="polite">
+        <!-- cards inseridos via js/main.js -->
+      </div>
+
+      <p class="collection-note">*Peças, nomes e preços exibidos são conteúdo demonstrativo — catálogo real em breve.</p>
+    </div>
+  </section>
+
+  <!-- DESTAQUES -->
+  <section class="section-alt" id="destaques">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="mono-tag">DESTAQUES</span>
+        <h2>Dois pontos da rota, em evidência</h2>
+      </div>
+      <div class="spotlight">
+        <div class="spotlight-panel">
+          <div class="spot-art">
+            <svg viewBox="0 0 220 220" fill="none" stroke="#1A1611" stroke-width="1">
+              <path d="M40 200 L70 40 L150 40 L180 200" stroke-width="1.2"/>
+              <path d="M55 130 L165 130" stroke-width="0.8" opacity="0.6"/>
+              <circle cx="110" cy="20" r="10"/>
+            </svg>
+          </div>
+          <div class="spot-content">
+            <span class="mono-tag">EDIÇÃO ATUAL</span>
+            <h3>Coleção Base 16:15</h3>
+            <p>A linha essencial da marca — peças curinga pra montar o look de qualquer trecho do dia.</p>
+            <a href="#colecao" class="btn btn-outline">Ver peças</a>
+          </div>
+        </div>
+        <div class="spotlight-panel">
+          <div class="spot-art">
+            <svg viewBox="0 0 220 220" fill="none" stroke="#1A1611" stroke-width="1">
+              <circle cx="110" cy="110" r="70" stroke-dasharray="3 5"/>
+              <path d="M60 110 L160 110 M110 60 L110 160" stroke-width="0.8"/>
+              <circle cx="110" cy="110" r="5" fill="#1A1611" stroke="none"/>
+            </svg>
+          </div>
+          <div class="spot-content">
+            <span class="mono-tag">DROP 01</span>
+            <h3>Ide por Todo o Mundo</h3>
+            <p>A edição limitada de camisetas que abre em breve. Prioridade só pra quem está na lista VIP.</p>
+            <a href="#drop" class="btn btn-outline">Entrar na lista</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="wrap about-grid">
+      <div class="about-art">
+        <svg viewBox="0 0 200 200" fill="none" stroke="#1A1611" stroke-width="1">
+          <circle cx="100" cy="100" r="94" stroke-dasharray="2 4"/>
+          <path d="M25 95 Q60 60 100 95 T175 95" stroke-width="0.9"/>
+          <path d="M30 130 Q70 150 100 125 T170 120" stroke-width="0.6" opacity="0.5"/>
+          <circle cx="100" cy="95" r="3.5" fill="#1A1611" stroke="none"/>
+        </svg>
+      </div>
+      <div class="about-copy">
+        <span class="mono-tag">SOBRE A ROTA 16:15</span>
+        <h2>Um horário, um mapa, um propósito</h2>
+        <p>16:15 é o instante em que a rota parte. O mapa-múndi do selo lembra que o caminho é grande — e que cada pessoa desenha o seu. A Rota 16:15 é moda urbana com propósito: roupa como ponto de partida, carregando uma missão maior do que tendência.</p>
+        <p>Cortes retos, identidade de rua e um símbolo que vira selo em cada peça — feito pra quem caminha com direção.</p>
+        <ul class="about-list">
+          <li><strong>Caminho</strong><span>Cada coleção marca um trecho novo da rota.</span></li>
+          <li><strong>Propósito</strong><span>Peça pensada pra carregar uma missão, não só uma moda.</span></li>
+          <li><strong>Movimento</strong><span>Modelagem solta, feita pra rua e pro dia a dia.</span></li>
+          <li><strong>Identidade</strong><span>O selo 16:15 em cada detalhe da marca.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PALAVRA -->
+  <section class="section-alt" id="palavra">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="mono-tag">PALAVRA</span>
+        <h2>A rota começa na Palavra</h2>
+        <p>Moda urbana com propósito: a Rota 16:15 carrega o evangelho em cada peça e em cada trecho do caminho. O nome 16:15 ecoa Marcos 16:15 — o versículo que dá nome ao Drop 01.</p>
+      </div>
+      <div class="verse-grid">
+        <blockquote class="verse-card">
+          <p>"Ide por todo o mundo e pregai o evangelho a toda criatura."</p>
+          <cite>Marcos 16:15</cite>
+        </blockquote>
+        <blockquote class="verse-card">
+          <p>"Este é o caminho, andai nele."</p>
+          <cite>Isaías 30:21</cite>
+        </blockquote>
+        <blockquote class="verse-card">
+          <p>"Os passos do homem são confirmados pelo Senhor."</p>
+          <cite>Salmos 37:23</cite>
+        </blockquote>
+        <blockquote class="verse-card">
+          <p>"Sê forte e corajoso; o Senhor teu Deus está contigo."</p>
+          <cite>Josué 1:9</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto" id="manifesto">
+    <div class="wrap">
+      <span class="mono-tag">MANIFESTO</span>
+      <h2>"O ide é o nosso caminho"</h2>
+      <p>Não é sobre chegar. É sobre o trecho percorrido — o que se veste nele, quem se é durante ele, e a missão que se carrega. A Rota 16:15 veste esse meio de caminho.</p>
+      <div class="manifesto-mark">
+        <svg viewBox="0 0 120 120" fill="none" stroke="#F4EFE6" stroke-width="1">
+          <circle cx="60" cy="60" r="54" stroke-dasharray="2 4"/>
+          <path d="M15 58 Q40 35 60 58 T105 58" stroke-width="0.8"/>
+          <circle cx="60" cy="58" r="3" fill="#F4EFE6" stroke="none"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section id="instagram">
+    <div class="wrap">
+      <div class="insta-head">
+        <div class="section-head" style="margin-bottom:0;">
+          <span class="mono-tag">INSTAGRAM</span>
+          <h2>Siga a rota de perto</h2>
+        </div>
+        <a href="https://www.instagram.com/rota1615.co/" target="_blank" rel="noopener noreferrer" class="btn btn-solid">@rota1615.co</a>
+      </div>
+
+      <div class="insta-bio-card">
+        <p>Rota 16:15🗺️</p>
+        <p>Moda urbana com propósito.</p>
+        <p>Drops Exclusivos | Edições Limitadas</p>
+        <p>Drop 01: IDE POR TUDO O MUNDO (Em Breve)</p>
+        <p>Garanta sua peça na Lista VIP:</p>
+        <a href="#drop" class="btn btn-outline insta-bio-link">Ver lista VIP</a>
+      </div>
+
+      <div class="insta-grid">
+        <a class="insta-tile" href="https://www.instagram.com/rota1615.co/" target="_blank" rel="noopener noreferrer" aria-label="Ver post no Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1A1611" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="0.6" fill="#1A1611"/></svg>
+        </a>
+        <a class="insta-tile" href="https://www.instagram.com/rota1615.co/" target="_blank" rel="noopener noreferrer" aria-label="Ver post no Instagram">
+          <svg viewBox="0 0 200 200" fill="none" stroke="#1A1611" stroke-width="1"><path d="M20 100 Q60 50 100 100 T180 100"/></svg>
+        </a>
+        <a class="insta-tile" href="https://www.instagram.com/rota1615.co/" target="_blank" rel="noopener noreferrer" aria-label="Ver post no Instagram">
+          <svg viewBox="0 0 200 200" fill="none" stroke="#1A1611" stroke-width="1"><circle cx="100" cy="100" r="70" stroke-dasharray="2 4"/></svg>
+        </a>
+        <a class="insta-tile" href="https://www.instagram.com/rota1615.co/" target="_blank" rel="noopener noreferrer" aria-label="Ver post no Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1A1611" stroke-width="1.2"><path d="M4 20 L9 8 L15 8 L20 20"/></svg>
+        </a>
+        <a class="insta-tile" href="https://www.instagram.com/rota1615.co/" target="_blank" rel="noopener noreferrer" aria-label="Ver post no Instagram">
+          <svg viewBox="0 0 200 200" fill="none" stroke="#1A1611" stroke-width="1"><path d="M40 60 L70 130 L100 50 L130 140 L160 70" stroke-width="0.8"/></svg>
+        </a>
+        <a class="insta-tile" href="https://www.instagram.com/rota1615.co/" target="_blank" rel="noopener noreferrer" aria-label="Ver post no Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1A1611" stroke-width="1.2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 15 L9 10 L13 14 L20 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="wrap">
+      <h2>Sua próxima rota começa aqui.</h2>
+      <a href="#drop" class="btn btn-solid">Entrar na lista VIP</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer id="contato">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="Logotipo Rota 16:15">
+          <span>ROTA 16:15</span>
+        </div>
+        <p class="footer-tag">Moda urbana com propósito. O ide é o nosso caminho.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="#drop">Drop 01</a>
+        <a href="#colecao">Coleção</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#palavra">Palavra</a>
+        <a href="#manifesto">Manifesto</a>
+      </div>
+      <div class="footer-col">
+        <h4>Marca</h4>
+        <a href="https://www.instagram.com/rota1615.co/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="#instagram">Bastidores</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:10px;">Fale com a gente pelo Instagram — canal oficial da marca.</p>
+        <a href="https://www.instagram.com/rota1615.co/" target="_blank" rel="noopener noreferrer">@rota1615.co</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ROTA 16:15 — TODOS OS DIREITOS RESERVADOS</p>
+      <p><a href="admin.html" style="color:var(--muted);">Painel administrativo</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
