@@ -238,36 +238,6 @@ app.get(
     }
 );
 
-
-// ========================================
-// FRONTEND
-// ========================================
-
-const FRONTEND_DIR = path.join(
-    __dirname,
-    "..",
-    "frontend"
-);
-
-
-app.use(
-    express.static(FRONTEND_DIR)
-);
-
-
-app.get(
-    "/",
-    (req, res) => {
-        res.sendFile(
-            path.join(
-                FRONTEND_DIR,
-                "index.html"
-            )
-        );
-    }
-);
-
-
 // ========================================
 // TRATAMENTO DE ERROS
 // ========================================
@@ -286,14 +256,7 @@ app.use(
 
 
 // ========================================
-// INICIAR SERVIDOR
+// EXPORTAR APP
 // ========================================
 
-app.listen(
-    PORT,
-    () => {
-        console.log(
-            `Rota 16:15 API rodando em http://localhost:${PORT} [${NODE_ENV}]`
-        );
-    }
-);
+export default app;
