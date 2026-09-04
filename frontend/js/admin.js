@@ -1,6 +1,9 @@
 (function () {
   'use strict';
-  var API_BASE=(location.protocol==='file:')?'http://localhost:3000/api':'/api',TOKEN_KEY='rota1615_admin_token';
+  var API_BASE =
+  (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://localhost:3000/api'
+    : 'https://rotafinalv3-api.vercel.app/api',TOKEN_KEY='rota1615_admin_token';
   var loginScreen=document.getElementById('loginScreen'),adminApp=document.getElementById('adminApp'),loginForm=document.getElementById('loginForm'),loginFeedback=document.getElementById('loginFeedback'),loginSubmit=document.getElementById('loginSubmit');
   function getToken(){return sessionStorage.getItem(TOKEN_KEY);} function setToken(t){sessionStorage.setItem(TOKEN_KEY,t);} function clearToken(){sessionStorage.removeItem(TOKEN_KEY);}
   function authFetch(path,options){options=options||{};options.headers=Object.assign({},options.headers,{Authorization:'Bearer '+getToken()});return fetch(API_BASE+path,options).then(function(res){if(res.status===401){clearToken();showLogin('Sessão expirada. Faça login novamente.');throw new Error('unauthorized');}return res;});}

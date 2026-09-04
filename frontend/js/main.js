@@ -4,11 +4,11 @@
   // Em desenvolvimento, o frontend costuma ser aberto pelo Live Server (ex.: :5500).
   // Nesse caso, /api apontaria para o servidor do Live Server, e não para o backend :3000.
   // Em produção, quando frontend e backend estão no mesmo domínio, usamos /api.
-  var API_BASE = window.ROTA_API_BASE || (
-    location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-      ? 'http://localhost:3000/api'
-      : '/api'
-  );
+var API_BASE = window.ROTA_API_BASE || (
+  location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000/api'
+    : 'https://rotafinalv3-api.vercel.app/api'
+);
   var CART_KEY = 'rota1615_cart';
   var currentProducts = [];
   var currentFilter = 'todos';
