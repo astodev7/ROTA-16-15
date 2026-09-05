@@ -1,3 +1,12 @@
+Copyright © 2026 AstoDev.
+
+All rights reserved.
+
+This repository is public for viewing and portfolio purposes.
+No permission is granted to copy, modify, distribute, sublicense,
+or use this project or substantial portions of its source code
+without prior written permission from the copyright holder.
+
 # Rota 16:15
 
 E-commerce de camisas desenvolvido com frontend, API própria, Supabase e Mercado Pago.
