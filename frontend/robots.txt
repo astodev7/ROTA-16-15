@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /obrigado.html
+Disallow: /*?payment=
+Disallow: /*?ref=
+
+Sitemap: https://rota-16-15-v3.vercel.app/sitemap.xml

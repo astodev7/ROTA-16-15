@@ -1,0 +1,19 @@
+# Rota 16:15
+
+> Rota 16:15 é uma marca de moda urbana (streetwear) brasileira. Loja online com drops
+> em edição limitada, lista de espera VIP e checkout via Mercado Pago.
+
+Rota 16:15 vende camisetas, moletons, bermudas e acessórios. O site permite navegar pela
+coleção, entrar na lista VIP para acesso antecipado a novos drops, e finalizar compras
+com entrega no Brasil. Pagamentos são processados pelo Mercado Pago.
+
+## Páginas
+
+- [Site principal](https://rota-16-15-v3.vercel.app/): coleção, drop atual, manifesto da marca e lista VIP.
+- [Política de Privacidade](https://rota-16-15-v3.vercel.app/privacidade.html): como os dados de clientes são coletados, usados e removidos.
+
+## Notas para crawlers automatizados
+
+- Não há API pública de leitura destinada a terceiros; o endpoint `/api/*` pertence ao backend da loja e não deve ser usado fora do site oficial.
+- O painel administrativo (`/admin`) é uma área restrita e não faz parte do conteúdo público da marca.
+- Para contato, use o Instagram oficial: https://www.instagram.com/rota1615.co/

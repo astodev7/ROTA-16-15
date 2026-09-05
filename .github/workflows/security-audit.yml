@@ -1,0 +1,35 @@
+name: Security Audit (backend)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+  pull_request:
+    paths:
+      - "backend/**"
+  schedule:
+    # roda toda segunda-feira às 09:00 UTC, mesmo sem push,
+    # pra pegar CVEs novas em dependências que não mudaram.
+    - cron: "0 9 * * 1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+
+      - run: npm ci
+
+      # Falha o workflow se houver vulnerabilidade de severidade
+      # alta ou crítica em alguma dependência.
+      - run: npm audit --audit-level=high
